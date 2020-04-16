@@ -11,7 +11,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 host: virtserver.swaggerhub.com
-basePath: /revelles/pearson-writer-rest-api/1.0.0
+basePath: /revelles/writer-rest-api/1.0.0
 tags:
 - name: guide
   description: Writer's Guide API
