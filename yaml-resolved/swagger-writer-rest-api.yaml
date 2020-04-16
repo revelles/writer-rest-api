@@ -1,0 +1,2859 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a sample Writer's Nextgen API server.  You can find \nout more about Swagger at \n[http://swagger.io](http://swagger.io) or on \n[irc.freenode.net, #swagger](http://swagger.io/irc/).\n"
+  version: 1.0.0
+  title: Swagger Writer Nextgen API
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: virtserver.swaggerhub.com
+basePath: /revelles/pearson-writer-rest-api/1.0.0
+tags:
+- name: guide
+  description: Writer's Guide API
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+- name: documentservice
+  description: Access to DocumentService
+- name: sources
+  description: Operations about sources citation
+  externalDocs:
+    description: Find out more about sources citation
+    url: http://swagger.io
+- name: pla
+  description: Operations about pla
+  externalDocs:
+    description: Find out more about pla
+    url: http://swagger.io
+- name: chegg
+  description: Operations about pla
+  externalDocs:
+    description: Find out more about pla
+    url: http://swagger.io
+- name: user
+  description: Operations about user
+  externalDocs:
+    description: Find out more about user
+    url: http://swagger.io
+- name: login
+  description: Operations about login
+  externalDocs:
+    description: Find out more about login
+    url: http://swagger.io
+- name: project
+  description: Operations about project
+  externalDocs:
+    description: Find out more about project
+    url: http://swagger.io
+- name: checklist
+  description: Operations about checklist
+  externalDocs:
+    description: Find out more about checklist
+    url: http://swagger.io
+- name: EBSCO
+  description: Operations about EBSCO
+  externalDocs:
+    description: Find out more about EBSCO
+    url: http://swagger.io
+- name: notification
+  description: Operations about Notification
+  externalDocs:
+    description: Find out more about Notification
+    url: http://swagger.io
+- name: csg
+  description: Operations about GSG/API
+  externalDocs:
+    description: Find out more about GSG/API
+    url: http://swagger.io
+- name: Other APIs
+  description: Operations about Other APIs
+  externalDocs:
+    description: Find out more about Other APIs
+    url: http://swagger.io
+- name: Third party API
+  description: Operations about Third party API
+  externalDocs:
+    description: Find out more about Third party API
+    url: http://swagger.io
+schemes:
+- https
+- http
+paths:
+  /guide/mike:
+    get:
+      tags:
+      - guide
+      summary: Returns Mike's DTO.
+      operationId: getMikesDTO
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: You just pinged the Guide service successfully!
+  /guide/ping:
+    get:
+      tags:
+      - guide
+      summary: User pings health check
+      operationId: ping
+      produces:
+      - text/plain
+      parameters: []
+      responses:
+        "200":
+          description: You just pinged the Guide service successfully!
+  /guide/bookmark/{bookmarkId}:
+    get:
+      tags:
+      - guide
+      summary: Get bookmarked content for user
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findBookmarkByBookmarkId
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: bookmarkId
+        in: path
+        description: The bookmark ID.
+        required: true
+        type: integer
+        minimum: 1
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Bookmark'
+        "400":
+          description: Invalid status value
+    post:
+      tags:
+      - guide
+      summary: Add user Bookmark.
+      operationId: bookmarks
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: body
+        description: Bookmark object...
+        required: true
+        schema:
+          $ref: '#/definitions/Bookmark'
+      - name: bookmarkId
+        in: path
+        description: The bookmark ID.
+        required: true
+        type: integer
+        minimum: 1
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Bookmark not found
+        "405":
+          description: Validation exception
+    delete:
+      tags:
+      - guide
+      summary: Delete bookmark with id.
+      description: Id of the asset
+      operationId: deleteBookmarkWithId
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: bookmarkId
+        in: path
+        description: The bookmark that needs to be deleted
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No content
+        "400":
+          description: Bad request
+        "405":
+          description: Error ???
+        "500":
+          description: Internal server error
+  /guide/bookmark:
+    get:
+      tags:
+      - guide
+      summary: Get bookmarked content for user.
+      operationId: bookmark
+      produces:
+      - text/plain
+      parameters: []
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Bad Request - see messages
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /guide/suggestions/{term}:
+    get:
+      tags:
+      - guide
+      summary: Search Writers Guide titles for Suggestions
+      operationId: suggestions
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: term
+        in: path
+        description: The term to search.
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Bad Request - see messages
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /guide/relatedItems/{id}:
+    get:
+      tags:
+      - guide
+      summary: Get Related Items by Asset Id
+      operationId: relatedItems
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        description: Id of the asset.
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Bad Request - see messages
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /guide/asset/{id}/:
+    get:
+      tags:
+      - guide
+      summary: Get asset by Id.
+      description: Get Asset by Asset Id.
+      operationId: asset
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Asset Id.
+        required: true
+        type: integer
+        minimum: 1
+      responses:
+        "200":
+          description: User Profile Found
+        "400":
+          description: User Profile Error
+        "404":
+          description: User Profile Invalid
+        "500":
+          description: Server Error
+  /guide/pwUserProfile:
+    get:
+      tags:
+      - guide
+      summary: Get Pearson Writer User's Profile
+      description: A descriptive description
+      operationId: getPWUserProfile
+      produces:
+      - application/json
+      parameters:
+      - name: smsUserId
+        in: path
+        description: smsUsedId.
+        required: true
+        type: integer
+        minimum: 1
+      responses:
+        "200":
+          description: User Profile Found
+        "400":
+          description: User Profile Error
+        "404":
+          description: User Profile Invalid
+        "500":
+          description: Server Error
+  /guide/wgwelcomeclosed:
+    get:
+      tags:
+      - guide
+      summary: Pearson Writer New WG Welcome Screens Viewed
+      description: Pearson Writer New WG Welcome Screens Viewed
+      operationId: welcomeViewClosed
+      produces:
+      - application/json
+      parameters:
+      - name: userdId
+        in: path
+        description: userId.
+        required: true
+        type: integer
+        minimum: 1
+      responses:
+        "200":
+          description: User Profile Found
+        "400":
+          description: User Profile Error
+        "404":
+          description: User Profile Invalid
+        "500":
+          description: Server Error
+  /guide/resources/:
+    get:
+      tags:
+      - guide
+      summary: Get list of assets for a course.
+      operationId: courseAssets
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: course
+        in: path
+        description: Name of the course.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Bad Request - see messages
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /guide/search/{term}:
+    get:
+      tags:
+      - guide
+      summary: Search for Writers Guide Content.
+      operationId: search
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: term
+        in: path
+        description: Term to search.
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Bad Request - see messages
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /documentservice/ping:
+    get:
+      tags:
+      - documentservice
+      summary: User pings health check
+      operationId: pingDocumentService
+      produces:
+      - text/plain
+      parameters: []
+      responses:
+        "200":
+          description: You just pinged the documentservice successfully!
+  /documentService/uploadAndConvert:
+    post:
+      tags:
+      - documentservice
+      summary: uploads document
+      operationId: uploadAndConvert
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+      - name: file
+        in: formData
+        description: file to upload
+        required: false
+        type: file
+      - name: additionalMetadata
+        in: formData
+        description: Additional data to pass to server
+        required: false
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /documentService/exportDocument/{exportFormat}:
+    post:
+      tags:
+      - documentservice
+      summary: Export from Document service.
+      operationId: exportFromDocumentService
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+      - name: exportFormat
+        in: path
+        description: file to upload
+        required: true
+        type: string
+      - name: documentContent
+        in: formData
+        description: Document content
+        required: false
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /sources/citation:
+    post:
+      tags:
+      - sources
+      summary: Creates a citation.
+      operationId: createCitation
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: body
+        description: Citation object - figure this out
+        required: true
+        schema:
+          $ref: '#/definitions/Citation'
+      - name: citationId
+        in: path
+        description: The citation ID.
+        required: true
+        type: integer
+        minimum: 1
+      responses:
+        "200":
+          description: Citation Created
+        "400":
+          description: Invalid ID supplied
+        "401":
+          description: Unauthorized
+        "404":
+          description: Citation not found
+        "405":
+          description: Validation exception
+        "500":
+          description: Internal Server Error
+  /sources/citation/footnote:
+    post:
+      tags:
+      - sources
+      summary: Creates a citation footnote.
+      operationId: createCitationFootnote
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: body
+        description: Citation Footnote object - figure this out
+        required: true
+        schema:
+          $ref: '#/definitions/Footnote'
+      - name: footnoteId
+        in: path
+        description: The footnote ID.
+        required: true
+        type: integer
+        minimum: 1
+      responses:
+        "200":
+          description: Footnote Created
+        "400":
+          description: Invalid ID supplied
+        "401":
+          description: Unauthorized
+        "404":
+          description: Footnote not found
+        "405":
+          description: Validation exception
+        "500":
+          description: Internal Server Error
+  /sources/citation/{citationId}:
+    get:
+      tags:
+      - sources
+      summary: Get a citation by Citation ID
+      description: Get a citation by Citation ID
+      operationId: getCitationByCitationId
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        description: The citation ID.
+        required: true
+        type: integer
+        minimum: 1
+      - name: citationId
+        in: path
+        description: The Citation ID.
+        required: true
+        type: integer
+        minimum: 1
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Citation'
+        "400":
+          description: Invalid status value
+    post:
+      tags:
+      - sources
+      summary: Update citation.
+      operationId: updateCitation
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        description: The citation ID.
+        required: true
+        type: integer
+        minimum: 1
+      - name: smsUserId
+        in: path
+        description: The SMS User ID.
+        required: true
+        type: integer
+        minimum: 1
+      - in: body
+        name: body
+        description: Citation object...
+        required: true
+        schema:
+          $ref: '#/definitions/Citation'
+      - name: citationId
+        in: path
+        description: The Citation ID.
+        required: true
+        type: integer
+        minimum: 1
+      responses:
+        "200":
+          description: Citation updated
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Citation not found
+        "405":
+          description: Validation exception
+    delete:
+      tags:
+      - sources
+      summary: Delete a list of citations.
+      description: Delete a list of citations
+      operationId: deleteAListOfCitations
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        description: The citation ID.
+        required: true
+        type: integer
+        minimum: 1
+      - name: citationId
+        in: path
+        description: The Citation ID.
+        required: true
+        type: integer
+        minimum: 1
+      - name: citationIds
+        in: path
+        description: The list of citations that needs to be deleted
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Citation deleted
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Citation not found
+        "405":
+          description: Validation exception
+  /sources/citationList/projectId:
+    get:
+      tags:
+      - sources
+      summary: Get a list of citations by project ID
+      description: Get a list of citations by project ID
+      operationId: getAListOfCitationsByProjectId
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        description: The ID.
+        required: true
+        type: integer
+        minimum: 1
+      - name: projectId
+        in: path
+        description: The project ID.
+        required: true
+        type: integer
+        minimum: 1
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /sources/parentheticalcitation/:
+    post:
+      tags:
+      - sources
+      summary: Get the parenthetical citation given the citation data (JSON).
+      operationId: getParentheticalCitationByCitation
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: ParentheticalCitation object...
+        required: true
+        schema:
+          $ref: '#/definitions/Citation'
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /sources/citationList/{projectId}/{style}:
+    get:
+      tags:
+      - sources
+      summary: Get a list of citations by project ID and Style
+      description: Get a list of citations by project ID and Style
+      operationId: getAListOfCitationsByProjectIdAndStyle
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        description: The ID.
+        required: true
+        type: integer
+        minimum: 1
+      - name: projectId
+        in: path
+        description: The project ID.
+        required: true
+        type: integer
+        minimum: 1
+      - name: style
+        in: path
+        description: The project's style.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /sources/citation/format:
+    put:
+      tags:
+      - sources
+      summary: Format a Citation
+      description: Format a Citation
+      operationId: formatCitation
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Updated citation object
+        required: true
+        schema:
+          $ref: '#/definitions/Citation'
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /sources/citation/footnotes/{citationId}:
+    get:
+      tags:
+      - sources
+      summary: Get footnotes for citationID
+      description: Get footnotes for citationID
+      operationId: getFootNotesForCitationId
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        description: The ID.
+        required: true
+        type: integer
+      - name: citationId
+        in: path
+        description: The citation ID.
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Successful
+        "500":
+          description: Internal Server Error
+  /pla/userloadscontentCSG:
+    post:
+      tags:
+      - pla
+      summary: Send a Loads content message to PLA.
+      operationId: sendALoadsContentMessageToPLA
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: userloadscontentCSG object...
+        required: true
+        schema:
+          $ref: '#/definitions/Citation'
+      responses:
+        "200":
+          description: Message created
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /pla/userloadscontent:
+    post:
+      tags:
+      - pla
+      summary: Send a Loads content message to PLA.
+      operationId: sendUserLoadsContentMessageToPLA
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: userloadscontent object...
+        required: true
+        schema:
+          $ref: '#/definitions/Citation'
+      responses:
+        "200":
+          description: Message created
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /pla/createWordPluginLoginMsg:
+    get:
+      tags:
+      - pla
+      summary: Create login message
+      operationId: createLoginMessage
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Message created
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /chegg/search:
+    get:
+      tags:
+      - chegg
+      summary: Simple search for citations via CHEGG service
+      operationId: cheegSearch
+      parameters: []
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+        "503":
+          description: Service Unavailable
+  /user/userProfile:
+    get:
+      tags:
+      - user
+      summary: Simple search for citations via CHEGG service
+      operationId: getUserProfile
+      parameters: []
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /user/ping:
+    get:
+      tags:
+      - user
+      description: User ping health check
+      produces:
+      - text/plain
+      parameters: []
+      responses:
+        "200":
+          description: OK
+  /user/email:
+    post:
+      tags:
+      - user
+      summary: Creates user's email.
+      operationId: createUserEmail
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: email
+        in: formData
+        description: email
+        required: true
+        type: string
+      responses:
+        "405":
+          description: Invalid input
+    put:
+      tags:
+      - user
+      summary: Updates user's email.
+      operationId: updateUserEmail
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: email
+        in: formData
+        description: email
+        required: true
+        type: string
+      responses:
+        "405":
+          description: Invalid input
+  /user/forceupdate:
+    get:
+      tags:
+      - user
+      summary: Verify if the user needs to update
+      operationId: forceupdate
+      parameters:
+      - name: version
+        in: query
+        description: version
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /user/emailupdate:
+    post:
+      tags:
+      - user
+      summary: Updates user's email.
+      operationId: updateEmail
+      consumes:
+      - multipart/form-data
+      - application/url-encoded
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: email
+        in: formData
+        description: email
+        required: true
+        type: string
+      responses:
+        "405":
+          description: Invalid input
+  /user/verifypasscode:
+    post:
+      tags:
+      - user
+      summary: Verify Mobile Passcode
+      operationId: verifyPasscode
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: code
+        in: formData
+        description: code
+        required: true
+        type: string
+      - name: version
+        in: formData
+        description: version
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Passcode verified
+        "400":
+          description: Bad Request - see messages
+        "500":
+          description: Internal Server Error
+  /user/checksubscription:
+    get:
+      tags:
+      - user
+      summary: Verify if the user needs to update
+      operationId: checkSubscription
+      parameters:
+      - name: version
+        in: query
+        description: version
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request - see messages
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /login/userProfile:
+    get:
+      tags:
+      - login
+      summary: Verify if the user needs to update
+      operationId: getLoginUserProfile
+      parameters:
+      - name: correlationId
+        in: header
+        description: correlationId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: User profile error
+        "404":
+          description: User profile invalid
+        "500":
+          description: Internal Server Error
+  /login/easyBibUserProfile:
+    get:
+      tags:
+      - login
+      summary: Returns users EasyBib Profile
+      operationId: getLoginEasyBibUserProfile
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: User profile error
+        "404":
+          description: User profile invalid
+        "500":
+          description: Internal Server Error
+  /login/easyBibUserData:
+    get:
+      tags:
+      - login
+      summary: Returns users EasyBib data
+      operationId: getLoginEasyBibUserData
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: correlationId
+        required: true
+        type: string
+      - name: username
+        in: query
+        description: user
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: User profile error
+        "404":
+          description: User profile invalid
+        "500":
+          description: Internal Server Error
+  /login/checkSubscription:
+    get:
+      tags:
+      - login
+      summary: Check User Subscription
+      operationId: checkUserSubscription
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: username
+        in: query
+        description: user
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: User profile error
+        "404":
+          description: User profile invalid
+        "500":
+          description: Internal Server Error
+  /login/checkLogin:
+    get:
+      tags:
+      - login
+      summary: Check User Subscription
+      operationId: checkLogin
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: getInitData
+        in: query
+        description: getInitData
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: User profile error
+        "404":
+          description: User profile invalid
+        "500":
+          description: Internal Server Error
+  /login/mobilePasscode:
+    get:
+      tags:
+      - login
+      summary: Returns Mobile Passcode
+      operationId: getMobilePasscode
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: User profile error
+        "404":
+          description: User profile invalid
+        "500":
+          description: Internal Server Error
+  /project/ping:
+    get:
+      tags:
+      - project
+      description: Project's ping health check
+      produces:
+      - text/plain
+      parameters: []
+      responses:
+        "200":
+          description: OK
+  /project/projectDetails/{projectId}:
+    get:
+      tags:
+      - project
+      description: Get project's details.
+      operationId: getProjectDetails
+      parameters:
+      - name: correlationId
+        in: header
+        description: correlationId
+        required: true
+        type: string
+      - name: projectId
+        in: path
+        description: projectId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: User profile error
+        "404":
+          description: User profile invalid
+        "500":
+          description: Internal Server Error
+  /project/checklistSummary/{projectId}:
+    get:
+      tags:
+      - project
+      description: Get checklist's summary.
+      operationId: getCheckListSummary
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: projectId
+        in: path
+        description: projectId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: User profile error
+        "404":
+          description: User profile invalid
+        "500":
+          description: Internal Server Error
+  /project/newProject:
+    post:
+      tags:
+      - project
+      summary: Creates a new user.
+      consumes:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - in: body
+        name: user
+        description: The user to create.
+        required: false
+        schema:
+          $ref: '#/definitions/user'
+      responses:
+        "201":
+          description: Project created.
+        "400":
+          description: Error creating project.
+  /project/archive/{projectId}:
+    get:
+      tags:
+      - project
+      description: Archive a project.
+      operationId: archiveProject
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: projectId
+        in: path
+        description: projectId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Project archive error
+        "404":
+          description: Project archive invalid
+        "500":
+          description: Internal Server Error
+  /project/unarchive/{projectId}:
+    get:
+      tags:
+      - project
+      description: Unrchive a Project.
+      operationId: unArchiveProject
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: projectId
+        in: path
+        description: projectId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Project unarchive error
+        "404":
+          description: Project unarchive invalid
+        "500":
+          description: Internal Server Error
+  /project/batchProjectArchive:
+    put:
+      tags:
+      - project
+      description: Batch Project Archive.
+      operationId: batchProjectArchive
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: projectId
+        in: path
+        description: projectId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Batch Project Archive Error
+        "404":
+          description: Batch Project Archive invalid
+        "500":
+          description: Internal Server Error
+  /project/batchProjectUnarchive:
+    put:
+      tags:
+      - project
+      description: Batch Project Unarchive.
+      operationId: batchProjectUnarchive
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: projectId
+        in: path
+        description: projectId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Batch Project Unarchive.
+        "404":
+          description: Batch Project Unarchive Invalid.
+        "500":
+          description: Internal Server Error
+  /project/deleteProject/{id}/{rev}:
+    delete:
+      tags:
+      - project
+      summary: Delete project
+      description: Delete project description.
+      operationId: deleteProject
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: id
+        in: path
+        description: The id of the project to delete.
+        required: true
+        type: string
+      - name: rev
+        in: path
+        description: The rev of the project to delete.
+        required: true
+        type: string
+      responses:
+        "400":
+          description: Invalid username supplied
+        "404":
+          description: User not found
+  /project/batchProjectDelete:
+    put:
+      tags:
+      - project
+      description: Batch Project Delete.
+      operationId: batchProjectDelete
+      parameters:
+      - in: body
+        name: body
+        description: Batch Project Delete.
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Project'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Batch Project Delete Error.
+        "404":
+          description: Batch Project Delete Invalid.
+        "500":
+          description: Internal Server Error.
+  /project/editProject/{projectId}:
+    put:
+      tags:
+      - project
+      description: Edit Project.
+      operationId: editProject
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - in: body
+        name: user
+        description: The user to create.
+        required: false
+        schema:
+          $ref: '#/definitions/user_1'
+      - name: projectId
+        in: path
+        description: Project Id.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Batch Project Delete Error.
+        "404":
+          description: Batch Project Delete Invalid.
+        "500":
+          description: Internal Server Error
+  /project/projectList:
+    get:
+      tags:
+      - project
+      description: Get a list of projects for this user.
+      operationId: getUsersProjectList
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: projectId
+        in: path
+        description: projectId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Project List error
+        "404":
+          description: Project List invalid
+        "500":
+          description: Internal Server Error
+  /project/emailAlerts:
+    get:
+      tags:
+      - project
+      description: Get projects and milestones to send emails.
+      operationId: getProjectsAndMilestonesToSendEmails
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: projectId
+        in: path
+        description: projectId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: checklistSummary Error
+        "404":
+          description: Project List invalid
+        "500":
+          description: Internal Server Error
+  /project/projectSummaryList:
+    get:
+      tags:
+      - project
+      description: Get List of Projects with checklist data for this User.
+      operationId: getListOfProjectsWithChecklistDataForThisUser
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: getListOfProjectsWithChecklistDataForThisUser Error
+        "404":
+          description: getListOfProjectsWithChecklistDataForThisUser invalid
+        "500":
+          description: Internal Server Error
+  /project/projectChecklistItem/{projectId}:
+    post:
+      tags:
+      - project
+      summary: Add a single checklist item for a particular Project.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: projectId
+        in: path
+        required: true
+        type: string
+      - in: body
+        name: user
+        description: The user to create.
+        required: false
+        schema:
+          $ref: '#/definitions/user_2'
+      responses:
+        "201":
+          description: Project created.
+        "400":
+          description: Error creating project.
+    put:
+      tags:
+      - project
+      description: Update a single checklist item for a particular Project.
+      operationId: updateASingleChecklistItemForProject
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: projectId
+        in: path
+        description: Project Id.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Batch Project Delete Error.
+        "404":
+          description: Batch Project Delete Invalid.
+        "500":
+          description: Internal Server Error
+  /project/projectChecklistItem/{projectId}/{checklistId}:
+    delete:
+      tags:
+      - project
+      summary: Delete a single checklist item for a Project.
+      description: Delete a single checklist item for a Project.
+      operationId: deleteSingleChecjklistItemForAProject
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: checklistId
+        in: path
+        description: The id of the project to delete.
+        required: true
+        type: string
+      - name: projectId
+        in: path
+        description: The id of the project to delete checklist.
+        required: true
+        type: string
+      responses:
+        "400":
+          description: Delete a Project Checklist Item Error
+        "404":
+          description: Project not found for requested Project ID
+  /project/projectChecklistBatchDelete/{projectId}:
+    put:
+      tags:
+      - project
+      description: Delete a multiple checklist items for a Project particular Project.
+      operationId: projectChecklistBatchDelete
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: projectId
+        in: path
+        description: Project Id.
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: Edited Project.
+        required: false
+        schema:
+          $ref: '#/definitions/Project'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Batch Project Delete Error.
+        "404":
+          description: Batch Project Delete Invalid.
+        "500":
+          description: Internal Server Error
+  /checklist_url/api/getchecklist:
+    get:
+      tags:
+      - checklist
+      description: Get checklist
+      operationId: getchecklist
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: checklistId
+        in: path
+        description: Checklist Id.
+        required: true
+        type: string
+      - name: moduleId
+        in: path
+        description: Module Id.
+        required: true
+        type: string
+      - name: projectId
+        in: path
+        description: Project Id.
+        required: true
+        type: string
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Get Checklist Error.
+        "404":
+          description: Get Invalid Checklist Parameters.
+        "500":
+          description: Internal Server Error
+  /checklist_url/api/adduserquestion:
+    post:
+      tags:
+      - project
+      summary: Add user question.
+      operationId: addUserQuestion
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: userCategoryId
+        in: path
+        description: User category Id.
+        required: true
+        type: string
+      - name: userQuestion
+        in: path
+        description: User Question.
+        required: true
+        type: string
+      - name: isComplete
+        in: path
+        description: Is complete?
+        required: true
+        type: boolean
+      - name: isEditable
+        in: path
+        description: Is editable?
+        required: true
+        type: boolean
+      - name: isVisable
+        in: path
+        description: Is visable?
+        required: true
+        type: boolean
+      - name: questionOrder
+        in: path
+        description: Is visable?
+        required: true
+        type: boolean
+      - name: checklistId
+        in: path
+        description: Checklist Id.
+        required: true
+        type: string
+      - name: moduleId
+        in: path
+        description: Module Id.
+        required: true
+        type: string
+      - name: projectId
+        in: path
+        description: Project Id.
+        required: true
+        type: string
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Get Checklist Error.
+        "404":
+          description: Get Invalid Checklist Parameters.
+        "500":
+          description: Internal Server Error
+  /checklist_url/api/updateuserquestion:
+    put:
+      tags:
+      - project
+      summary: Update user question.
+      operationId: updateUserQuestion
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: userCategoryId
+        in: path
+        description: User category Id.
+        required: true
+        type: string
+      - name: userQuestion
+        in: path
+        description: User Question.
+        required: true
+        type: string
+      - name: isComplete
+        in: path
+        description: Is complete?
+        required: true
+        type: boolean
+      - name: isEditable
+        in: path
+        description: Is editable?
+        required: true
+        type: boolean
+      - name: isVisable
+        in: path
+        description: Is visable?
+        required: true
+        type: boolean
+      - name: questionOrder
+        in: path
+        description: Is visable?
+        required: true
+        type: boolean
+      - name: checklistId
+        in: path
+        description: Checklist Id.
+        required: true
+        type: string
+      - name: moduleId
+        in: path
+        description: Module Id.
+        required: true
+        type: string
+      - name: projectId
+        in: path
+        description: Project Id.
+        required: true
+        type: string
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Update User Question Error.
+        "404":
+          description: Update User Question Invalid Parameters.
+        "500":
+          description: Internal Server Error
+  /checklist_url/api/showhidequestions:
+    get:
+      tags:
+      - checklist
+      description: Show and Hide or Show/hide questions.
+      operationId: showHideQuestions
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: userQuestionUId
+        in: path
+        description: PuserQuestionUId.
+        required: true
+        type: string
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      - name: isVisable
+        in: path
+        description: Is visable?
+        required: true
+        type: boolean
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Get Checklist Error.
+        "404":
+          description: Get Invalid Checklist Parameters.
+        "500":
+          description: Internal Server Error
+  /checklist_url/api/updatequestiondelete:
+    put:
+      tags:
+      - project
+      summary: Update user question delete field??.
+      operationId: updateUserQuestionDelete
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: userQuestionId
+        in: path
+        description: User Question Id.
+        required: true
+        type: string
+      - name: isDeleted
+        in: path
+        description: Is deleted?
+        required: true
+        type: boolean
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Update User Question Error.
+        "404":
+          description: Update User Question Invalid Parameters.
+        "500":
+          description: Internal Server Error
+  /checklist_url/api/updatequestioncomplete:
+    put:
+      tags:
+      - checklist
+      summary: Update user question complete field??.
+      operationId: updateUserQuestionComplete
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: userQuestionId
+        in: path
+        description: User Question Id.
+        required: true
+        type: string
+      - name: isComplete
+        in: path
+        description: Is complete?
+        required: true
+        type: boolean
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Update User Question Error.
+        "404":
+          description: Update User Question Invalid Parameters.
+        "500":
+          description: Internal Server Error
+  /checklist_url/api/updatechecklistorder:
+    put:
+      tags:
+      - checklist
+      summary: Update checklist order field??.
+      operationId: updateChecklistOrder
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: orderId
+        in: path
+        description: Checklist order Id.
+        required: true
+        type: string
+      - name: isComplete
+        in: path
+        description: Is complete?
+        required: true
+        type: boolean
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Update User Question Error.
+        "404":
+          description: Update User Question Invalid Parameters.
+        "500":
+          description: Internal Server Error
+  /services/notebook/ping:
+    get:
+      tags:
+      - notebook
+      description: Notebook's ping health check
+      produces:
+      - text/plain
+      parameters: []
+      responses:
+        "200":
+          description: OK
+  /services/notebook/outline/status/{id}:
+    put:
+      tags:
+      - notebook
+      summary: Update notebook outline status by noteId.
+      operationId: updateOutlineStatusByNoteId
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: id
+        in: path
+        description: Id for several purposes.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Update Notebook Outline Error.
+        "404":
+          description: Update Notebook Outline Invalid Parameters.
+        "500":
+          description: Internal Server Error
+  /services/notebook/outline:
+    put:
+      tags:
+      - notebook
+      summary: Update notebook outline.
+      operationId: outline
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: outline
+        in: path
+        description: Outline.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Update Notebook Outline Error.
+        "404":
+          description: Update Notebook Outline Invalid Parameters.
+        "500":
+          description: Internal Server Error
+  /OutlineExporter:
+    get:
+      tags:
+      - checklist
+      description: Outline Exporter.
+      operationId: exportOutline
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: outline
+        in: path
+        description: Outline.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Get Checklist Error.
+        "404":
+          description: Get Invalid Checklist Parameters.
+        "500":
+          description: Internal Server Error
+  /services/notebook/notebook:
+    get:
+      tags:
+      - checklist
+      description: Get Notebook Details for this Project.
+      operationId: getNotebookDetailsForThisProject
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: outline
+        in: path
+        description: Outline.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Notebook Get Eror.
+        "404":
+          description: Notebook Invalid Get.
+        "500":
+          description: Internal Server Error.
+  /services/notebook/note:
+    post:
+      tags:
+      - notebook
+      description: Create a new note.
+      operationId: createNote
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: outline
+        in: path
+        description: Outline.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Update Notebook Outline Error.
+        "404":
+          description: Update Notebook Outline Invalid Parameters.
+        "500":
+          description: Internal Server Error
+    put:
+      tags:
+      - notebook
+      description: Update a note.
+      operationId: updateNote
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: note
+        in: path
+        description: Outline.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Update Note Error.
+        "404":
+          description: Update Note Invalid put.
+        "500":
+          description: Internal Server Error
+  /services/notebook/note/{noteId}:
+    delete:
+      tags:
+      - notebook
+      summary: Delete note for noteid
+      operationId: deleteNote
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: noteId
+        in: path
+        description: Note id to delete
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Note not found
+  /ebsco/ping:
+    get:
+      tags:
+      - EBSCO
+      description: EBSCO's ping health check
+      produces:
+      - text/plain
+      parameters: []
+      responses:
+        "200":
+          description: OK
+  /ebsco/search:
+    get:
+      tags:
+      - EBSCO
+      summary: Ebsco Search.
+      operationId: ebscoSearch
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        type: string
+      - name: search1
+        in: query
+        required: false
+        type: string
+      - name: search2
+        in: query
+        required: false
+        type: string
+      - name: operator
+        in: query
+        required: false
+        type: string
+      - name: category1
+        in: query
+        required: false
+        type: string
+      - name: category2
+        in: query
+        required: false
+        type: string
+      - name: fulltext
+        in: query
+        required: false
+        type: string
+      - name: startrec
+        in: query
+        required: false
+        type: string
+      - name: numrec
+        in: query
+        required: false
+        type: string
+      - name: sort
+        in: query
+        required: false
+        type: string
+      - name: format
+        in: query
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Bad Request - see messages
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /csg/courses:
+    get:
+      tags:
+      - csg
+      description: Get courses, lessons and sub-lessons.
+      operationId: getCourses
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Notebook Get Eror.
+        "404":
+          description: Notebook Invalid Get.
+        "500":
+          description: Internal Server Error.
+  /csg/courses/{courseName}/assets/{userId}:
+    get:
+      tags:
+      - csg
+      description: Get assets of a course.
+      operationId: getAssestsOfACourse
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      - name: courseName
+        in: path
+        description: Course's Name.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Assets of a course Get Error.
+        "404":
+          description: Assets of a course Invalid Get.
+        "500":
+          description: Internal Server Error.
+  /csg/courses/{courseName}/lessons/{lessonName}/assets/{userId}:
+    get:
+      tags:
+      - csg
+      description: Get assets of a lesson.
+      operationId: getAssestsOfALesson
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      - name: courseName
+        in: path
+        description: Course's Name.
+        required: true
+        type: string
+      - name: lessonName
+        in: path
+        description: Lesson's Name.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Assets of a lesson Get Error.
+        "404":
+          description: Assets of a lesson Invalid Get.
+        "500":
+          description: Internal Server Error.
+  /csg/courses/{courseName}/lessons/{lessonName}}/subLessons/{subLessonName}}/assets/:
+    get:
+      tags:
+      - csg
+      description: Get assets of a sub-lesson.
+      operationId: getAssestsOfASubLesson
+      parameters:
+      - name: userId
+        in: query
+        required: false
+        type: string
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: courseName
+        in: path
+        description: Course's Name.
+        required: true
+        type: string
+      - name: lessonName
+        in: path
+        description: Lesson's Name.
+        required: true
+        type: string
+      - name: subLessonName
+        in: path
+        description: Sublesson's Name.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Assets of a sub-lesson Get Error.
+        "404":
+          description: Assets of a sub-lesson Invalid Get.
+        "500":
+          description: Internal Server Error.
+  /csg/users/{userId}/bookmarks:
+    get:
+      tags:
+      - csg
+      description: Get bookmarks list.
+      operationId: getBookmarkListByUserId
+      parameters:
+      - name: correlationId
+        in: header
+        description: The correlationId parameter common for all paths.
+        required: false
+        type: string
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      - name: courseName
+        in: path
+        description: Course's Name.
+        required: true
+        type: string
+      - name: lessonName
+        in: path
+        description: Lesson's Name.
+        required: true
+        type: string
+      - name: subLessonName
+        in: path
+        description: Sublesson's Name.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Assets of a sub-lesson Get Error.
+        "401":
+          description: Unauthorized.
+        "404":
+          description: Assets of a sub-lesson Invalid Get.
+        "500":
+          description: Internal Server Error.
+  /csg/search:
+    get:
+      tags:
+      - csg
+      description: Search.
+      operationId: searchUserTypeTerm
+      parameters:
+      - name: userId
+        in: query
+        required: false
+        type: string
+      - name: type
+        in: query
+        required: false
+        type: string
+      - name: term
+        in: query
+        required: false
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Assets of a sub-lesson Get Error.
+        "404":
+          description: Assets of a sub-lesson Invalid Get.
+        "500":
+          description: Internal Server Error.
+  /csg/bookmarks:
+    post:
+      tags:
+      - csg
+      summary: Add bookmark.
+      operationId: addBookmark
+      produces:
+      - application/json
+      parameters:
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      - name: assestId
+        in: path
+        description: Assest Id.
+        required: true
+        type: string
+      responses:
+        "201":
+          description: Created.
+        "400":
+          description: Bad request.
+        "401":
+          description: Unauthorized.
+        "404":
+          description: Not found.
+        "409":
+          description: Conflict.
+        "503":
+          description: Service unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      tags:
+      - csg
+      summary: Deletes bookmark.
+      operationId: deleteBookmarks
+      produces:
+      - application/json
+      parameters:
+      - name: userId
+        in: path
+        description: User Id.
+        required: true
+        type: string
+      - name: assestId
+        in: path
+        description: Assest Id.
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No content.
+        "400":
+          description: Bad request.
+        "401":
+          description: Unauthorized.
+        "404":
+          description: Not found.
+        "409":
+          description: Conflict.
+        "503":
+          description: Service unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+  /csg/guide/relatedAssets:
+    get:
+      tags:
+      - csg
+      summary: Get related items.
+      description: AssestId, userId, size.
+      operationId: getRelatedItems
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: assestId
+        in: query
+        description: Assest Id.
+        required: true
+        type: integer
+      - name: userId
+        in: query
+        description: User Id.
+        required: true
+        type: string
+      - name: size
+        in: query
+        description: Size.
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Assest'
+        "400":
+          description: Invalid tag value
+  /csg/assests/:
+    get:
+      tags:
+      - csg
+      summary: Get assests by id.
+      description: Get assests by id.
+      operationId: getAssestsById
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: assestId
+        in: query
+        description: Assest Id.
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Assest'
+        "204":
+          description: No content.
+        "400":
+          description: Bad request.
+        "401":
+          description: Unauthorized.
+        "404":
+          description: Not found.
+        "409":
+          description: Conflict.
+        "503":
+          description: Service unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+  /csg/suggestions/:
+    get:
+      tags:
+      - csg
+      summary: Get search suggestions by term.
+      description: Get search suggestions by term.
+      operationId: getSearchSuggestionsByTerm
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: term
+        in: query
+        description: Term.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Assest'
+        "204":
+          description: No content.
+        "400":
+          description: Bad request.
+        "401":
+          description: Unauthorized.
+        "404":
+          description: Not found.
+        "409":
+          description: Conflict.
+        "503":
+          description: Service unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+securityDefinitions:
+  petstore_auth:
+    type: oauth2
+    authorizationUrl: http://petstore.swagger.io/oauth/dialog
+    flow: implicit
+    scopes:
+      write:pets: modify pets in your account
+      read:pets: read your pets
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+  Assest:
+    type: object
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      contentType:
+        type: string
+      assetDescription:
+        type: string
+      mobileUrl:
+        type: string
+      desktopUrl:
+        type: string
+      isBookmarked:
+        type: boolean
+      isCoreConcept:
+        type: boolean
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+      type:
+        type: string
+      message:
+        type: string
+  Project:
+    type: object
+    required:
+    - projectId
+    properties:
+      id:
+        type: integer
+        format: int64
+      projectId:
+        type: integer
+        format: int64
+    xml:
+      name: Project
+  Bookmark:
+    type: object
+    required:
+    - bookmarkId
+    properties:
+      id:
+        type: integer
+        format: int64
+      bookmarkId:
+        type: integer
+        format: int64
+    xml:
+      name: Bookmark
+  Citation:
+    type: object
+    required:
+    - citationId
+    properties:
+      id:
+        type: integer
+        format: int64
+      citationId:
+        type: integer
+        format: int64
+    xml:
+      name: Citation
+  Footnote:
+    type: object
+    required:
+    - footnoteId
+    properties:
+      id:
+        type: integer
+        format: int64
+      footnoteId:
+        type: integer
+        format: int64
+    xml:
+      name: Footnote
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+  user:
+    type: object
+    required:
+    - userName
+    properties:
+      userName:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+  user_1:
+    type: object
+    required:
+    - userName
+    properties:
+      userName:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+  user_2:
+    type: object
+    required:
+    - userName
+    properties:
+      userName:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+parameters:
+  assestIdParam:
+    name: assestId
+    in: path
+    description: Assest Id.
+    required: true
+    type: string
+  subLessonNameParam:
+    name: subLessonName
+    in: path
+    description: Sublesson's Name.
+    required: true
+    type: string
+  lessonNameParam:
+    name: lessonName
+    in: path
+    description: Lesson's Name.
+    required: true
+    type: string
+  courseNameParam:
+    name: courseName
+    in: path
+    description: Course's Name.
+    required: true
+    type: string
+  userIdParam:
+    name: userId
+    in: path
+    description: User Id.
+    required: true
+    type: string
+  idParam:
+    name: id
+    in: path
+    description: Id for several purposes.
+    required: true
+    type: string
+  autorizationParam:
+    name: Authorization
+    in: header
+    description: The Authorization parameter common for all paths.
+    required: false
+    type: string
+  autorizationXParam:
+    name: AuthorizationX
+    in: header
+    description: The AuthorizationX parameter common for all paths.
+    required: false
+    type: string
+  correlationIdParam:
+    name: correlationId
+    in: header
+    description: The correlationId parameter common for all paths.
+    required: false
+    type: string
+  offsetParam:
+    name: offset
+    in: query
+    description: The number of items to skip before starting to collect the result set.
+    required: false
+    type: integer
+    minimum: 0
+  limitParam:
+    name: limit
+    in: query
+    description: The numbers of items to return.
+    required: false
+    type: integer
+    default: 20
+    maximum: 50.0
+    minimum: 1
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
