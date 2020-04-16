@@ -1,9 +1,9 @@
 ---
 swagger: "2.0"
 info:
-  description: "This is a sample Writer's Nextgen API server.  You can find \nout more about Swagger at \n[http://swagger.io](http://swagger.io) or on \n[irc.freenode.net, #swagger](http://swagger.io/irc/).\n"
+  description: "This is a sample Writer's REST API server.  You can find out more about Swagger at \n[http://swagger.io](http://swagger.io) or on \n[irc.freenode.net, #swagger](http://swagger.io/irc/).\n"
   version: 1.0.0
-  title: Swagger Writer Nextgen API
+  title: Swagger Writer REST API
   termsOfService: http://swagger.io/terms/
   contact:
     email: apiteam@swagger.io
@@ -2649,6 +2649,13 @@ paths:
             $ref: '#/definitions/Error'
 securityDefinitions:
   petstore_auth:
+    type: oauth2
+    authorizationUrl: http://petstore.swagger.io/oauth/dialog
+    flow: implicit
+    scopes:
+      write:pets: modify pets in your account
+      read:pets: read your pets
+  writerrestapi_auth:
     type: oauth2
     authorizationUrl: http://petstore.swagger.io/oauth/dialog
     flow: implicit
