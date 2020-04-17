@@ -1,7 +1,7 @@
 ---
 swagger: "2.0"
 info:
-  description: "This is a sample Writer's REST API server.  You can find out more about Swagger at \n[http://swagger.io](http://swagger.io) or on \n[irc.freenode.net, #swagger](http://swagger.io/irc/).\n"
+  description: "This is Swagger Writer REST API server.  You can find out more about Swagger at \n[http://swagger.io](http://swagger.io) or on \n[irc.freenode.net, #swagger](http://swagger.io/irc/).\n"
   version: 1.0.0
   title: Swagger Writer REST API
   termsOfService: http://swagger.io/terms/
